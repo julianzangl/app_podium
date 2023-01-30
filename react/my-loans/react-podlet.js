@@ -10,7 +10,7 @@ const port = '7300';
 const url = `${domain}:${port}`;
 
 const podlet = new Podlet({
-    name: 'my-loans',
+    name: 'reactPodlet',
     version: '1.0.0',
     pathname: '/',
     manifest: '/manifest.json',

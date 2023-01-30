@@ -10,7 +10,7 @@ const port = '7200';
 const url = `${domain}:${port}`;
 
 const podlet = new Podlet({
-    name: 'feedback',
+    name: 'vuePodlet',
     version: '1.0.0',
     pathname: '/',
     manifest: '/manifest.json',
