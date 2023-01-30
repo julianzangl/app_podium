@@ -2,14 +2,15 @@
   <div class="vue-weather">
     <h1>Vue Weather</h1>
     <div>
-      <md-field>
+      <!-- <md-field>
         <label>Select City</label>
         <md-select v-model="selectedCity">
           <md-option v-for="city in cities" :key="city" :value="city">{{
             city
           }}</md-option>
         </md-select>
-      </md-field>
+      </md-field> -->
+      <h2>Bonjour</h2>
       <button id="vue-search-button" @click="getWeatherData()">search</button>
     </div>
   </div>
@@ -74,37 +75,16 @@ export default {
         "Zagreb",
         "Zurich",
       ],
-      weatherData: {
-        current: {},
-        location: {},
-      },
     };
   },
   methods: {
     getWeatherData() {
       if (this.selectedCity === "") {
-        this.$toast.error("Please select a city", {
-          position: "top-right",
-          timeout: 5000,
-        });
+        alert("Please select a city");
         return;
       }
       const messageBus = new MessageBus();
       messageBus.publish('city-data', 'city', this.selectedCity);
-      this.$toast.success("City selected: " + this.selectedCity, {
-        position: "top-right",
-        timeout: 5000,
-        closeOnClick: true,
-        pauseOnFocusLoss: true,
-        pauseOnHover: true,
-        draggable: true,
-        draggablePercent: 0.6,
-        showCloseButtonOnHover: false,
-        hideProgressBar: true,
-        closeButton: "button",
-        icon: true,
-        rtl: false,
-      });
     },
   },
 };
