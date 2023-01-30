@@ -1,14 +1,22 @@
 <template>
   <div class="vue-weather">
-    <h1>Weather</h1>
-    <md-field>
-      <label>Search city</label>
-      <md-input v-model="selectedCity"></md-input>
-    </md-field>
+    <h1>Vue Weather</h1>
+    <div>
+      <md-field>
+        <label>Select City</label>
+        <md-select v-model="selectedCity">
+          <md-option v-for="city in cities" :key="city" :value="city">{{
+            city
+          }}</md-option>
+        </md-select>
+      </md-field>
+      <button id="vue-search-button" @click="getWeatherData()">search</button>
+    </div>
   </div>
 </template>
 
 <script>
+import { MessageBus } from '@podium/browser';
 export default {
   name: "Dashboard",
   props: {},
@@ -16,26 +24,117 @@ export default {
     return {
       api_key: "81def5aa7e0e4176a9b74756233001",
       selectedCity: "",
-      weatherData: null
+      cities: [
+        "Amsterdam",
+        "Andorra la Vella",
+        "Athens",
+        "Baku",
+        "Belgrade",
+        "Berlin",
+        "Bern",
+        "Bratislava",
+        "Brussels",
+        "Bucharest",
+        "Budapest",
+        "Chisinau",
+        "Copenhagen",
+        "Dublin",
+        "Helsinki",
+        "Kiev",
+        "Lisbon",
+        "Ljubljana",
+        "London",
+        "Luxembourg",
+        "Madrid",
+        "Minsk",
+        "Monaco",
+        "Moscow",
+        "Nicosia",
+        "Oslo",
+        "Paris",
+        "Podgorica",
+        "Prague",
+        "Pristina",
+        "Reykjavik",
+        "Riga",
+        "Rome",
+        "San Marino",
+        "Sarajevo",
+        "Skopje",
+        "Sofia",
+        "Stockholm",
+        "Tallinn",
+        "Tirana",
+        "Vaduz",
+        "Valletta",
+        "Vatican City",
+        "Vienna",
+        "Vilnius",
+        "Warsaw",
+        "Zagreb",
+        "Zurich",
+      ],
+      weatherData: {
+        current: {},
+        location: {},
+      },
     };
   },
-  watch: {
-    selectedCity: async function () {
-      if (this.selectedCity.length > 2) {
-        const response = await fetch(
-          `https://api.weatherapi.com/v1/current.json?key=${this.api_key}&q=${this.selectedCity}`
-        );
-        const data = await response.json();
-        this.weatherData = {
-          current: data.current,
-          location: data.location
-        }
-        console.log(this.weatherData);
+  methods: {
+    getWeatherData() {
+      if (this.selectedCity === "") {
+        this.$toast.error("Please select a city", {
+          position: "top-right",
+          timeout: 5000,
+        });
+        return;
       }
+      const messageBus = new MessageBus();
+      messageBus.publish('city-data', 'city', this.selectedCity);
+      this.$toast.success("City selected: " + this.selectedCity, {
+        position: "top-right",
+        timeout: 5000,
+        closeOnClick: true,
+        pauseOnFocusLoss: true,
+        pauseOnHover: true,
+        draggable: true,
+        draggablePercent: 0.6,
+        showCloseButtonOnHover: false,
+        hideProgressBar: true,
+        closeButton: "button",
+        icon: true,
+        rtl: false,
+      });
     },
   },
 };
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.vue-weather {
+  width: 100%;
+  height: 100%;
+  padding: 5%;
+  border: 1px solid #4caf50;
+}
+
+#vue-search-button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: 0.5s ease-in-out;
+  border-radius: 5px;
+}
+
+#vue-search-button:hover {
+  background-color: #3e8e41;
+  transition: 0.5s;
+}
+</style>
