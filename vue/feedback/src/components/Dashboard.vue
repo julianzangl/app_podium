@@ -2,15 +2,14 @@
   <div class="vue-weather">
     <h1>Vue Weather</h1>
     <div>
-      <!-- <md-field>
+      <md-field>
         <label>Select City</label>
         <md-select v-model="selectedCity">
           <md-option v-for="city in cities" :key="city" :value="city">{{
             city
           }}</md-option>
         </md-select>
-      </md-field> -->
-      <h2>Bonjour</h2>
+      </md-field>
       <button id="vue-search-button" @click="getWeatherData()">search</button>
     </div>
   </div>
